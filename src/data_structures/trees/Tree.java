@@ -1,6 +1,7 @@
 package data_structures.trees;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Tree<T> {
@@ -43,7 +44,59 @@ public class Tree<T> {
             child.hasParent = true;
             this.children.add(child);
         }
+
+        public TreeNode<T> getChild(int index) {
+            return this.children.get(index);
+        }
+
+        public int getChildrenCount() {
+            return this.children.size();
+        }
     }
 
     private TreeNode<T> root;
+
+    public Tree() {
+        this.root = null;
+    }
+
+    public Tree(T value) {
+        if (value == null) {
+            throw new IllegalArgumentException("cannot insert new value");
+        }
+
+        this.root = new TreeNode<>(value);
+    }
+
+    @SafeVarargs
+    public Tree(T value, Tree<T>... children) {
+        this(value);
+
+        for (Tree<T> child : children) {
+            this.root.addChild(child.root);
+        }
+    }
+
+    public TreeNode<T> getRoot() {
+        return this.root;
+    }
+
+    public void fillTree(T parentVal, T childVal) {
+        TreeNode<T> child = new TreeNode<>(childVal);
+        child.hasParent = true;
+
+        if (this.root == null) {
+            this.root = new TreeNode<>(parentVal);
+            this.root.children.add(child);
+        } else if (parentVal == root.value) {
+            this.root.children.add(child);
+        } else {
+            for (TreeNode<T> node : root.children) {
+                if (node.value == parentVal) {
+                    node.children.add(child);
+                    break;
+                }
+            }
+        }
+    }
 }
