@@ -1,10 +1,10 @@
 package data_structures.trees;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Tree<T> {
+public class Tree<T extends Comparable<T>> {
     private static class TreeNode<T> {
         private T value;
         private boolean hasParent;
@@ -18,7 +18,6 @@ public class Tree<T> {
             this.value = value;
             this.children = new ArrayList<>();
         }
-
 
         public T getValue() {
             return value;
@@ -55,6 +54,7 @@ public class Tree<T> {
     }
 
     private TreeNode<T> root;
+    private int size;
 
     public Tree() {
         this.root = null;
@@ -66,6 +66,7 @@ public class Tree<T> {
         }
 
         this.root = new TreeNode<>(value);
+        this.size = 0;
     }
 
     @SafeVarargs
@@ -73,12 +74,17 @@ public class Tree<T> {
         this(value);
 
         for (Tree<T> child : children) {
+            this.size++;
             this.root.addChild(child.root);
         }
     }
 
     public TreeNode<T> getRoot() {
         return this.root;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public void fillTree(T parentVal, T childVal) {
@@ -88,15 +94,56 @@ public class Tree<T> {
         if (this.root == null) {
             this.root = new TreeNode<>(parentVal);
             this.root.children.add(child);
+            this.size += 2;
         } else if (parentVal == root.value) {
             this.root.children.add(child);
+            this.size++;
         } else {
             for (TreeNode<T> node : root.children) {
                 if (node.value == parentVal) {
                     node.children.add(child);
+                    this.size++;
                     break;
                 }
             }
         }
+    }
+
+    private void printTreeDFS(TreeNode<T> child, String spaces) {
+        if (this.root == null) {
+            return;
+        }
+
+        if (child == null) {
+            return;
+        }
+
+        System.out.println(spaces + child.value);
+        child.children.forEach((e) -> printTreeDFS(e, spaces + "  "));
+    }
+
+    public void printTree() {
+        this.printTreeDFS(this.root, "");
+    }
+
+    private List<T> getLeafNodeValues(TreeNode<T> child, List<T> leafs) {
+        if (child == null) {
+            return leafs;
+        }
+
+        if (child.hasParent && child.children.size() == 0) {
+            leafs.add(child.value);
+        }
+
+        child.children.forEach(e -> getLeafNodeValues(e, leafs));
+
+        return leafs;
+    }
+
+    public List<T> getLeafNodeValues() {
+        return this.getLeafNodeValues(this.root, new ArrayList<>())
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }

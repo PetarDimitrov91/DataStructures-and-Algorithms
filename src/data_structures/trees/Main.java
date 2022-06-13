@@ -18,6 +18,10 @@ public class Main {
             tree.fillTree(parent, child);
         }
 
-        System.out.println("");
+       // tree.printTree();
+
+        tree.getLeafNodeValues().forEach(System.out::println);
+
+        System.out.println(tree.getSize());
     }
 }
