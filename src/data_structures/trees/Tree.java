@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Tree<T extends Comparable<T>> {
-    private static class TreeNode<T> {
+
+    private static class TreeNode<T extends Comparable<T>> {
         private T value;
         private boolean hasParent;
         private List<TreeNode<T>> children;

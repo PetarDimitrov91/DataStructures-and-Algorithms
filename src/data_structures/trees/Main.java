@@ -18,7 +18,7 @@ public class Main {
             tree.fillTree(parent, child);
         }
 
-       // tree.printTree();
+        tree.printTree();
 
         tree.getLeafNodeValues().forEach(System.out::println);
 
