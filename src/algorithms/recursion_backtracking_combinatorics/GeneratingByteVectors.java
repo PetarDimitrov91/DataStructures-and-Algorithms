@@ -1,4 +1,4 @@
-package algorithms.recursion_and_backtracking;
+package algorithms.recursion_backtracking_combinatorics;
 
 import java.util.Arrays;
 import java.util.Scanner;
