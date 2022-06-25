@@ -1,7 +1,9 @@
 package algorithms.recursion_backtracking_combinatorics;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class ForLoopsToRecursion {
     public static int[] arr;
@@ -27,7 +29,9 @@ public class ForLoopsToRecursion {
     }
 
     public static void print() {
-        Arrays.stream(arr).forEach(System.out::print);
-        System.out.println();
+        String arr = Arrays.stream(ForLoopsToRecursion.arr)
+                .mapToObj(Objects::toString)
+                .collect(Collectors.joining(" "));
+        System.out.println(arr);
     }
 }
